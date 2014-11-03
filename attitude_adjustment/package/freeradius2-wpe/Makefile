@@ -12,7 +12,7 @@ PKG_VERSION:=2.1.7
 PKG_RELEASE:=7
 
 PKG_SOURCE:=freeradius-wpe-2.1.7.tar.gz
-PKG_SOURCE_URL:=http://localhost/
+PKG_SOURCE_URL:=http://www.cs.stevens.edu/~bridings/
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/freeradius-server-$(PKG_VERSION)
 PKG_FIXUP:=libtool
