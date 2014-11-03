@@ -322,6 +322,8 @@ CONFIGURE_ARGS+= \
 	--enable-shared \
 	--disable-static \
 	--disable-developer \
+	--with-system-libtool \
+	--with-system-libltdl \
 	--with-threads \
 	--with-openssl-includes="$(STAGING_DIR)/usr/include" \
 	--with-openssl-libraries="$(STAGING_DIR)/usr/lib" \
