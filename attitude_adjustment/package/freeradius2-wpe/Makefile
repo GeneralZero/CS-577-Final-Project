@@ -8,14 +8,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=freeradius2-wpe
-PKG_VERSION:=2.1.7
-PKG_RELEASE:=7
+PKG_VERSION:=2.2.0
+PKG_RELEASE:=3
 
-PKG_SOURCE:=freeradius-wpe-2.1.7.tar.gz
+PKG_SOURCE:=freeradius-server-2.2.0-wpe.tar.gz
 PKG_SOURCE_URL:=http://www.cs.stevens.edu/~bridings/
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/freeradius-server-$(PKG_VERSION)
-PKG_FIXUP:=libtool
+PKG_FIXUP:=autoreconf
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -274,7 +274,7 @@ endef
 define Package/freeradius2-wpe-mod-sql-mysql
   $(call Package/freeradius2-wpe/Default)
   DEPENDS:=freeradius2-wpe-mod-sql \
-  	+PACKAGE_freeradius2-wpe-mod-sql-mysql:libmysqlclient_r
+  	+PACKAGE_freeradius2-wpe-mod-sql-mysql:libmysqlclient-r
   TITLE:=MySQL module
 endef
 
@@ -315,18 +315,23 @@ define Package/freeradius2-wpe-utils
   TITLE:=Misc. client utilities
 endef
 
+define Package/freeradius2-wpe-mod-sqllog
+  $(call Package/freeradius2-wpe/Default)
+  DEPENDS:=freeradius2-wpe
+  TITLE:=SQL Logging module
+endef
+
 CONFIGURE_ARGS+= \
 	--libdir=/usr/lib/freeradius2-wpe \
-	--libdir=$(STAGING_DIR)/host/lib/ \
 	--libexecdir=/usr/lib/freeradius2-wpe \
 	--enable-shared \
 	--disable-static \
 	--disable-developer \
-	--with-system-libtool \
-	--with-system-libltdl \
 	--with-threads \
 	--with-openssl-includes="$(STAGING_DIR)/usr/include" \
 	--with-openssl-libraries="$(STAGING_DIR)/usr/lib" \
+	--with-system-libtool \
+	--with-system-libltdl \
 	--enable-strict-dependencies \
 	--with-raddbdir=/etc/freeradius2-wpe \
 	--with-radacctdir=/var/db/radacct \
@@ -338,10 +343,10 @@ CONFIGURE_ARGS+= \
 	--without-rlm_counter \
 	--with-rlm_expr \
 	--with-rlm_eap \
+	--with-rlm_eap_tls \
 	--without-rlm_eap_sim \
 	--without-rlm_example \
 	--without-rlm_ippool \
-	--without-rlm_ldap \
 	--without-rlm_krb5 \
 	--without-rlm_otp \
 	--without-rlm_smsotp \
@@ -358,7 +363,6 @@ CONFIGURE_ARGS+= \
 	--without-rlm_sql_freetds \
 	--without-rlm_sql_iodbc \
 	--without-rlm_sql_oracle \
-	--without-rlm_sql_sqlite \
 	--without-rlm_sql_sybase \
 	--without-rlm_sql_unixodbc \
 	--without-rlm_sql_log \
@@ -368,6 +372,26 @@ CONFIGURE_ARGS+= \
 	--without-rlm_opendirectory \
 	--without-rlm_wimax \
 	--without-rlm_ruby \
+	--without-rlm_caching \
+	--without-rlm_redis \
+	--without-rlm_rediswho \
+	--without-rlm_soh \
+	--without-rlm_sim \
+	--without-rlm_replicate \
+	--without-rlm_protocol_filter \
+	--without-rlm_policy \
+	--without-rlm_linelog \
+	--without-rlm_jradius \
+	--without-rlm_fastusers \
+	--with-rlm_eap_leap \
+	--without-rlm_dynamic_clients \
+	--without-rlm_digest \
+	--without-rlm_cram \
+	--without-rlm_copy_packet \
+	--without-rlm_acct_unique \
+	--without-rlm_acctlog \
+	--without-rlm_ldap
+	
 
 PKG_DICTIONARIES:= \
 	freeradius freeradius.internal \
@@ -402,6 +426,15 @@ ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-wpe-mod-sql-pgsql),)
 else
   CONFIGURE_ARGS+= --without-rlm_sql_postgresql
 endif
+
+ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-wpe-mod-sqllog),)
+  CONFIGURE_ARGS+= \
+        --with-rlm_sql_log \
+        --with-experimental-modules \
+else
+  CONFIGURE_ARGS+= --without-rlm_sql_log
+endif
+
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_freeradius2-wpe-mod-sql-sqlite),)
   CONFIGURE_ARGS+= \
@@ -570,6 +603,7 @@ $(eval $(call BuildPlugin,freeradius2-wpe-mod-sql-mysql,rlm_sql_mysql,))
 $(eval $(call BuildPlugin,freeradius2-wpe-mod-sql-pgsql,rlm_sql_postgresql,))
 $(eval $(call BuildPlugin,freeradius2-wpe-mod-sql-sqlite,rlm_sql_sqlite,))
 $(eval $(call BuildPlugin,freeradius2-wpe-mod-sqlcounter,rlm_sqlcounter,))
+$(eval $(call BuildPlugin,freeradius2-wpe-mod-sqllog,rlm_sql_log,))
 $(eval $(call BuildPlugin,freeradius2-wpe-mod-radutmp,rlm_radutmp,modules/radutmp modules/sradutmp,modules,))
 $(eval $(call BuildPlugin,freeradius2-wpe-mod-logintime,rlm_logintime,modules/logintime,modules,))
 $(eval $(call BuildPlugin,freeradius2-wpe-mod-expr,rlm_expr,modules/expr,modules,))
@@ -577,4 +611,3 @@ $(eval $(call BuildPlugin,freeradius2-wpe-mod-attr-filter,rlm_attr_filter,module
 $(eval $(call BuildPlugin,freeradius2-wpe-mod-expiration,rlm_expiration,modules/expiration,modules,))
 $(eval $(call BuildPlugin,freeradius2-wpe-mod-always,rlm_always,modules/always,modules,))
 $(eval $(call BuildPackage,freeradius2-wpe-utils))
-

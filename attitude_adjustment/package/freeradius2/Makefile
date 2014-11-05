@@ -344,6 +344,7 @@ CONFIGURE_ARGS+= \
 	--without-rlm_counter \
 	--with-rlm_expr \
 	--with-rlm_eap \
+	--with-rlm_eap_tls \
 	--without-rlm_eap_sim \
 	--without-rlm_example \
 	--without-rlm_ippool \
@@ -383,13 +384,14 @@ CONFIGURE_ARGS+= \
 	--without-rlm_linelog \
 	--without-rlm_jradius \
 	--without-rlm_fastusers \
-	--without-rlm_eap_leap \
+	--with-rlm_eap_leap \
 	--without-rlm_dynamic_clients \
 	--without-rlm_digest \
 	--without-rlm_cram \
 	--without-rlm_copy_packet \
 	--without-rlm_acct_unique \
-	--without-rlm_acctlog
+	--without-rlm_acctlog \
+	--without-rlm_ldap
 	
 
 PKG_DICTIONARIES:= \
