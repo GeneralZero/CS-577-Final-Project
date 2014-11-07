@@ -42,17 +42,6 @@ ldap {
 	#  every authentication request.
 	ldap_connections_number = 5
 
-	#  How many times the connection can be used before
-	#  being re-established. This is useful for things
-	#  like load balancers, which may exhibit sticky
-	#  behaviour without it. (0) is unlimited.
-	max_uses = 0
-
-	#  Port to connect on, defaults to 389. Setting this to
-	#  636 will enable LDAPS if start_tls (see below) is not
-	#  able to be used.
-	#port = 389
-
 	# seconds to wait for LDAP query to finish. default: 20
 	timeout = 4
 
@@ -84,7 +73,7 @@ ldap {
 		#			
 		# The StartTLS operation is supposed to be
 		# used with normal ldap connections instead of
-		# using ldaps (port 636) connections
+		# using ldaps (port 689) connections
 		start_tls = no
 
 		# cacertfile	= /path/to/cacert.pem
@@ -177,21 +166,4 @@ ldap {
 	#	default: 0x0000 (no debugging messages)
 	#	Example:(LDAP_DEBUG_FILTER+LDAP_DEBUG_CONNS)
 	#ldap_debug = 0x0028 
-
-	#
-	#  Keepalive configuration.  This MAY NOT be supported by your
-	#  LDAP library.  If these configuration entries appear in the
-	#  output of "radiusd -X", then they are supported.  Otherwise,
-	#  they are unsupported, and changing them will do nothing.
-	#
-	keepalive {
-		# LDAP_OPT_X_KEEPALIVE_IDLE
-		idle = 60
-
-		# LDAP_OPT_X_KEEPALIVE_PROBES
-		probes = 3
-
-		# LDAP_OPT_X_KEEPALIVE_INTERVAL
-		interval = 3
-	}
 }

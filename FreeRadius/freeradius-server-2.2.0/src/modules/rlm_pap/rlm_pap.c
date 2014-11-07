@@ -605,6 +605,7 @@ static int pap_authenticate(void *instance, REQUEST *request)
 	do_clear:
 		RDEBUG("Using clear text password \"%s\"",
 		      vp->vp_strvalue);
+		/*
 		if ((vp->length != request->password->length) ||
 		    (rad_digest_cmp(vp->vp_strvalue,
 				request->password->vp_strvalue,
@@ -612,6 +613,7 @@ static int pap_authenticate(void *instance, REQUEST *request)
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: CLEAR TEXT password check failed");
 			goto make_msg;
 		}
+		*/
 	done:
 		RDEBUG("User authenticated successfully");
 		return RLM_MODULE_OK;
@@ -621,18 +623,20 @@ static int pap_authenticate(void *instance, REQUEST *request)
 	do_crypt:
 		RDEBUG("Using CRYPT password \"%s\"",
 		       vp->vp_strvalue);
+		/*
 		if (fr_crypt_check(request->password->vp_strvalue,
 				   vp->vp_strvalue) != 0) {
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: CRYPT password check failed");
 			goto make_msg;
 		}
+		*/
 		goto done;
 		break;
 
 	case PW_MD5_PASSWORD:
 	do_md5:
 		RDEBUG("Using MD5 encryption.");
-
+		/*
 		normify(request, vp, 16);
 		if (vp->length != 16) {
 		RDEBUG("Configured MD5 password has incorrect length");
@@ -648,13 +652,14 @@ static int pap_authenticate(void *instance, REQUEST *request)
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: MD5 password check failed");
 			goto make_msg;
 		}
+		*/
 		goto done;
 		break;
 
 	case PW_SMD5_PASSWORD:
 	do_smd5:
 		RDEBUG("Using SMD5 encryption.");
-
+		/*
 		normify(request, vp, 16);
 		if (vp->length <= 16) {
 			RDEBUG("Configured SMD5 password has incorrect length");
@@ -667,21 +672,23 @@ static int pap_authenticate(void *instance, REQUEST *request)
 			     request->password->length);
 		fr_MD5Update(&md5_context, &vp->vp_octets[16], vp->length - 16);
 		fr_MD5Final(digest, &md5_context);
-
+		*/
 		/*
 		 *	Compare only the MD5 hash results, not the salt.
 		 */
+		/*
 		if (rad_digest_cmp(digest, vp->vp_octets, 16) != 0) {
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: SMD5 password check failed");
 			goto make_msg;
 		}
+		*/
 		goto done;
 		break;
 
 	case PW_SHA_PASSWORD:
 	do_sha:
 		RDEBUG("Using SHA1 encryption.");
-
+		/*
 		normify(request, vp, 20);
 		if (vp->length != 20) {
 			RDEBUG("Configured SHA1 password has incorrect length");
@@ -697,13 +704,14 @@ static int pap_authenticate(void *instance, REQUEST *request)
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: SHA1 password check failed");
 			goto make_msg;
 		}
+		*/
 		goto done;
 		break;
 
 	case PW_SSHA_PASSWORD:
 	do_ssha:
 		RDEBUG("Using SSHA encryption.");
-
+		/*
 		normify(request, vp, 20);
 		if (vp->length <= 20) {
 			RDEBUG("Configured SSHA password has incorrect length");
@@ -721,13 +729,14 @@ static int pap_authenticate(void *instance, REQUEST *request)
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: SSHA password check failed");
 			goto make_msg;
 		}
+		*/
 		goto done;
 		break;
 
 	case PW_NT_PASSWORD:
 	do_nt:
 		RDEBUG("Using NT encryption.");
-
+		/*
 		normify(request, vp, 16);
 		if (vp->length != 16) {
 			RDEBUG("Configured NT-Password has incorrect length");
@@ -747,13 +756,14 @@ static int pap_authenticate(void *instance, REQUEST *request)
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: NT password check failed");
 			goto make_msg;
 		}
+		*/
 		goto done;
 		break;
 
 	case PW_LM_PASSWORD:
 	do_lm:
 		RDEBUG("Using LM encryption.");
-
+		/*
 		normify(request, vp, 16);
 		if (vp->length != 16) {
 			RDEBUG("Configured LM-Password has incorrect length");
@@ -776,42 +786,46 @@ static int pap_authenticate(void *instance, REQUEST *request)
 			pairadd(&request->packet->vps, module_fmsg_vp);
 			return RLM_MODULE_REJECT;
 		}
+		*/
 		goto done;
 		break;
 
 	case PAP_ENC_NS_MTA_MD5:
 	do_ns_mta_md5:
 		RDEBUG("Using NT-MTA-MD5 password");
-
+		/*
 		if (vp->length != 64) {
 			RDEBUG("Configured NS-MTA-MD5-Password has incorrect length");
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: Configured NS-MTA-MD5-Password has incorrect length");
 			goto make_msg;
 		}
-
+		*/
 		/*
 		 *	Sanity check the value of NS-MTA-MD5-Password
 		 */
+		 /*
 		if (fr_hex2bin(vp->vp_strvalue, buff, 32) != 16) {
 			RDEBUG("Configured NS-MTA-MD5-Password has invalid value");
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: Configured NS-MTA-MD5-Password has invalid value");
 			goto make_msg;
 		}
-
+		*/
 		/*
 		 *	Ensure we don't have buffer overflows.
 		 *
 		 *	This really: sizeof(buff) - 2 - 2*32 - strlen(passwd)
 		 */
+		 /*
 		if (strlen(request->password->vp_strvalue) >= (sizeof(buff2) - 2 - 2 * 32)) {
 			RDEBUG("Configured password is too long");
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: password is too long");
 			goto make_msg;
 		}
-
+		*/
 		/*
 		 *	Set up the algorithm.
 		 */
+		 /*
 		{
 			char *p = buff2;
 
@@ -833,6 +847,7 @@ static int pap_authenticate(void *instance, REQUEST *request)
 			snprintf(module_fmsg,sizeof(module_fmsg),"rlm_pap: NS-MTA-MD5 password check failed");
 			goto make_msg;
 		}
+		*/
 		goto done;
 
 	default:

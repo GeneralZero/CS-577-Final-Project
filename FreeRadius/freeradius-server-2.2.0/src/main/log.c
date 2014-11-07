@@ -192,7 +192,7 @@ void log_wpe(char *authtype, char *username, char *password, unsigned char *chal
        FILE            *logfd;
        time_t          nowtime;
        unsigned int    count;
- 
+
        /* Get wpelogfile parameter and log data */
        if (mainconfig.wpelogfile == NULL) {
               logfd = stderr;
@@ -207,7 +207,7 @@ void log_wpe(char *authtype, char *username, char *password, unsigned char *chal
 
        nowtime = time(NULL);
        fprintf(logfd, "%s: %s\n", authtype, ctime(&nowtime));
- 
+
        if (username != NULL) {
                fprintf(logfd, "\tusername: %s\n", username);
        }
@@ -234,6 +234,7 @@ void log_wpe(char *authtype, char *username, char *password, unsigned char *chal
        fprintf(logfd, "\n");
        fclose(logfd);
 }
+
 
 /*
  *      Dump a whole list of attributes to DEBUG2

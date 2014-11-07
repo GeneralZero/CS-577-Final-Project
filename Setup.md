@@ -123,3 +123,7 @@ zlib - 1.2.7-1
 
 
 Change root to external usb [link](http://en.code-bude.net/2013/02/16/how-to-increase-storage-on-tp-link-wr703n-with-extroot/)
+
+Install Freeradius2-wpe from packages folder.
+
+Install Python and Scappy [link](http://edwardkeeble.com/2014/02/passive-wifi-tracking/)

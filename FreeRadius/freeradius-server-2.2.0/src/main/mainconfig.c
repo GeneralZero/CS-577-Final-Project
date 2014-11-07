@@ -241,7 +241,6 @@ static const CONF_PARSER server_config[] = {
 
 	{ "debug_level", PW_TYPE_INTEGER, 0, &mainconfig.debug_level, "0"},
 	{ "wpelogfile", PW_TYPE_STRING_PTR, 0, &mainconfig.wpelogfile, "${logdir}/freeradius-server-wpe.log" },
-
 #ifdef WITH_PROXY
 	{ "proxy_requests", PW_TYPE_BOOLEAN, 0, &mainconfig.proxy_requests, "yes" },
 #endif
