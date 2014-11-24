@@ -52,7 +52,7 @@ def sniffmgmt(p):
                 info["crypto"] = ["WEP"]
             else:
                 if len(info["crypto"]) == 0:
-                    info["crypto"] = ["OPEN"]
+                    info["crypto"] = ["OPEN/UNKWN"]
 
             pkt = pkt.payload
         print info
