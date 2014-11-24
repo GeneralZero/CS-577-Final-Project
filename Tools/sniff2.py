@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # The previous line ensures that this script is run under the context
 # of the Python interpreter. Next, import the Scapy functions:
-from scapy.all import *
+from scapy.all import Dot11, Dot11Elt, Dot11Beacon, sniff
+
 
 # Define the interface name that we will be sniffing from, you can
 # change this if needed.
