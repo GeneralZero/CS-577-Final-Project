@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+
+import subprocess
+
 # The previous line ensures that this script is run under the context
 # of the Python interpreter. Next, import the Scapy functions:
 from scapy.all import Dot11, Dot11Elt, Dot11Beacon, sniff
@@ -45,17 +48,19 @@ def sniffmgmt(p):
                     observedclients.append(pkt.info)
 
             elif pkt.ID == 48:
-                info["crypto"] = ["WPA2"]
+                info["crypto"] = ["wpa2"]
             elif pkt.ID == 221 and pkt.info.startswith('\x00P\xf2\x01\x01\x00'):
-                info["crypto"] = ["WPA"]
+                info["crypto"] = ["wpa"]
             elif 'privacy' in cap:
-                info["crypto"] = ["WEP"]
+                info["crypto"] = ["wep+mixed"]
             else:
                 if len(info["crypto"]) == 0:
-                    info["crypto"] = ["OPEN/UNKWN"]
+                    info["crypto"] = ["none"]
 
             pkt = pkt.payload
+
         print info
+        subprocess.call(["lua", "apgenerator.lua", info["ssid"], info["crypto"]])
         
 # With the sniffmgmt() function complete, we can invoke the Scapy sniff()
 # function, pointing to the monitor mode interface, and telling Scapy to call
