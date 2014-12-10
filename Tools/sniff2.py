@@ -174,4 +174,4 @@ def saveAPinfo():
 # With the sniffmgmt() function complete, we can invoke the Scapy sniff()
 # function, pointing to the monitor mode interface, and telling Scapy to call
 # the sniffmgmt() function for each packet received. Easy!
-sniff(iface=interface, filter="wlan" prn=sniffmgmt)
+sniff(iface=interface,  lfilter= lambda x: x.haslayer(Dot11), prn=sniffmgmt)
