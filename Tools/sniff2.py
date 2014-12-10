@@ -53,7 +53,6 @@ def sniffmgmt(p):
                 else:
                     info["ssid"] = pkt.info
                     
-
             elif pkt.ID == 48:
                 info["crypto"] = "wpa2"
             elif pkt.ID == 221 and pkt.info.startswith('\x00P\xf2\x01\x01\x00'):
@@ -70,7 +69,6 @@ def sniffmgmt(p):
             print info
             observedclients[info["ssid"]] = info
 
-## TODO: scrape output and put in to 
 def getAPinfo():
     """
     This function will scrape the info from the commandline.
