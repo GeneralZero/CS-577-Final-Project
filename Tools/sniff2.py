@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import subprocess, re, Queue
+import subprocess, re, Queue, pickle, os.path
 
 # The previous line ensures that this script is run under the context
 # of the Python interpreter. Next, import the Scapy functions:
@@ -78,23 +78,24 @@ def getAPinfo():
     """
     for x in range(maxAPs):
         try:
-            if x ==0:
-                output = subprocess.check_output(["iwinfo", "wlan0", "info"])
+            if x == 0:
+                dev = "wlan0"
             else:
-                output = subprocess.check_output(["iwinfo", "wlan0-" + str(x), "info"])
+                dev = "wlan0-" + str(x)
+            output = subprocess.check_output(["iwinfo", dev, "info"])
 
             #Parse Output
             if output.find("No station connected") == -1:
                 info = re.findall('ESSID: "(.*)"|Encryption: (.*)', output)
                 info = [y if y!= "" else z for y,z in info ]
                 if "wlan0-" + str(x) not in wlans:
-                    wlans["wlan0-" + str(x)] = {}
-                wlans["wlan0-" + str(x)]["ssid"] = info[0]
-                wlans["wlan0-" + str(x)]["crypto"] = info[1]
+                    wlans[dev] = {}
+                wlans[dev]["ssid"] = info[0]
+                wlans[dev]["crypto"] = info[1]
             else:
                 return
         except subprocess.CalledProcessError, e:
-            pass
+            return
 
 def getAPclients():
     """
@@ -125,7 +126,7 @@ def getAPclients():
             else:
                 return
         except subprocess.CalledProcessError, e:
-            pass
+            return
 
 def createAP(ssid, crypto):
     getAPinfo()
@@ -167,11 +168,18 @@ def createAP(ssid, crypto):
 
 
 def loadAPinfo():
-
+    if os.path.isfile("AP.pickle"):
+        dumpData = pickle.load("AP.pickle")
 
 def saveAPinfo():
+    pickle.dump(dumpData, "AP.pickle")
 
 # With the sniffmgmt() function complete, we can invoke the Scapy sniff()
 # function, pointing to the monitor mode interface, and telling Scapy to call
 # the sniffmgmt() function for each packet received. Easy!
-sniff(iface=interface,  lfilter= lambda x: x.haslayer(Dot11), prn=sniffmgmt)
+
+loadAPinfo()
+
+sniff(iface=interface, lfilter=lambda x: x.haslayer(Dot11), prn=sniffmgmt)
+
+saveAPinfo()
