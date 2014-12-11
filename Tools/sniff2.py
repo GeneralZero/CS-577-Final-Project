@@ -140,6 +140,11 @@ def removeOldAP():
             oldinf = inf
     removeAP(oldinf)
 
+def removeOthers(ssid, interface):
+    for int in currentSpoofedNetworks:
+        if int != interface and currentSpoofedNetworks[inf]["ssid"] == ssid:
+            removeAP(inf)
+
 def createAP(ssid, crypto):
     getAPinfo()
 
