@@ -140,8 +140,8 @@ Copy **freeradius-wpe-config.tar.gz** and extract
 
 Install Python and Scappy [link](http://edwardkeeble.com/2014/02/passive-wifi-tracking/)
 
-Install impacket 9.12
-`python  setup.py install`
+Install impacket 9.12 [http://corelabs.coresecurity.com/index.php?module=Wiki&action=attachment&type=tool&page=Impacket&file=Impacket-0.9.2.tar.gz](Impacket-0.9.2.tar.gz)
+`python setup.py install`
 
 Copy Tools Directory from Repo to router
 

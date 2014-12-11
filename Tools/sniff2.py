@@ -129,7 +129,7 @@ def getAPclients():
 
 def removeAP(interface):
     if interface != monitor_interface:
-        subprocess.call(["lua", "removeap.lua", interface])
+        subprocess.call(["lua", "apremove.lua", interface])
 
 def removeOldAP(count):
     time = datetime.max
@@ -146,7 +146,6 @@ def removeOthers(interface):
     for int in currentSpoofedNetworks:
         if int != interface and currentSpoofedNetworks[inf]["ssid"] == ssid:
             removeAP(inf)
-    subprocess.call(["lua", "saveAP.lua",])
 
 def createAP(ssid, crypto):
     getAPinfo()
@@ -158,7 +157,7 @@ def createAP(ssid, crypto):
         if len(currentSpoofedNetworks) + 6 > maxAPs:
             for x in range(len(currentSpoofedNetworks) + 6 - maxAPs):
                 removeOldAP()
-                
+
         subprocess.call(["lua", "apgenerator.lua", ssid, crypto])
         subprocess.call(["lua", "apgenerator.lua", ssid, "wep", "ABCDEF1234567890"])
         subprocess.call(["lua", "apgenerator.lua", ssid, "wpa", "ABCDEF1234567890"])
