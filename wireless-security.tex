@@ -1,0 +1,734 @@
+%%% mode: latex
+%%% TeX-master: "wireless-security"
+
+\documentclass[journal, compsoc]{IEEEtran}
+
+\usepackage{silence}
+\WarningFilter{breakurl}{You are using breakurl while processing via pdflatex}
+\WarningFilter{hyperref}{Token not allowed in a PDF string (PDFDocEncoding)}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[autostyle]{csquotes}
+\usepackage[cmex10]{amsmath}
+\usepackage{xmpincl}
+\usepackage{filecontents}
+\usepackage{siunitx}
+\usepackage[hyphens]{url}
+\usepackage[hyphenbreaks]{breakurl}
+\usepackage{doi}
+\usepackage[backend=biber,style=ieee,citestyle=ieee,sortcites,url=false]{biblatex}
+
+\interdisplaylinepenalty=2500
+\setcounter{biburlnumpenalty}{3000}
+\setcounter{biburllcpenalty}{6000}
+\setcounter{biburlucpenalty}{9000}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%             License                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup\newif\ifmy{}
+\IfFileExists{copyright.xmp}{}{\mytrue}
+\ifmy{}
+\begin{filecontents}{copyright.xmp}
+<?xpacket begin='' id=''?>
+<x:xmpmeta xmlns:x='adobe:ns:meta/'>
+  <rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <rdf:Description rdf:about=''
+                     xmlns:xapRights='http://ns.adobe.com/xap/1.0/rights/'>
+      <xapRights:Marked>True</xapRights:Marked>
+    </rdf:Description>
+    <rdf:Description rdf:about=''
+                     xmlns:xapRights='http://ns.adobe.com/xap/1.0/rights/'
+                     >
+      <xapRights:UsageTerms>
+	<rdf:Alt>
+          <rdf:li xml:lang='x-default' >This work is licensed under a &lt;a rel=&#34;license&#34; href=&#34;http://creativecommons.org/licenses/by-sa/4.0/&#34;&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.</rdf:li>
+          <rdf:li xml:lang='en_US' >This work is licensed under a &lt;a rel=&#34;license&#34; href=&#34;http://creativecommons.org/licenses/by-sa/4.0/&#34;&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.</rdf:li>
+          <rdf:li xml:lang='en' >This work is licensed under a &lt;a rel=&#34;license&#34; href=&#34;http://creativecommons.org/licenses/by-sa/4.0/&#34;&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.</rdf:li>
+          </rdf:Alt>
+      </xapRights:UsageTerms>
+    </rdf:Description>
+    <rdf:Description rdf:about=''
+                     xmlns:dc='http://purl.org/dc/elements/1.1/'>
+      <dc:title>
+	<rdf:Alt>
+          <rdf:li xml:lang='x-default'>Multi-Surface Attack on Wireless Security</rdf:li>
+          <rdf:li xml:lang='en_US'>Multi-Surface Attack on Wireless Security</rdf:li>
+	</rdf:Alt>
+      </dc:title>
+    </rdf:Description>
+    <rdf:Description rdf:about=''
+      xmlns:cc='http://creativecommons.org/ns#'>
+      <cc:license rdf:resource='http://creativecommons.org/licenses/by-sa/4.0/'/>
+    </rdf:Description>
+    <rdf:Description rdf:about=''
+      xmlns:cc='http://creativecommons.org/ns#'>
+      <cc:attributionName>Brian Ridings, Tyler Romeo, and Neal Trischitta</cc:attributionName>
+    </rdf:Description>
+
+  </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end='r'?>
+\end{filecontents}
+\fi\endgroup
+\includexmp{copyright}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Bibliography             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begingroup\newif\ifmy{}
+\IfFileExists{references.bib}{}{\mytrue}
+\ifmy{}
+\begin{filecontents}{references.bib}
+@article{1389197,
+  journal = {ANSI/IEEE Std 802.11, 1999 Edition (R2003)},
+  title = {IEEE Standard for Information Technology- Telecommunications and Information Exchange Between Systems-Local and Metropolitan Area Networks- Specific Requirements- Part 11: Wireless LAN Medium Access Control (MAC) and Physical Layer (PHY) Specifications},
+  year = {2003},
+  month = {},
+  pages = {i-513},
+  doi = {10.1109/IEEESTD.2003.95617},
+}
+
+@article{1438730,
+  journal = {IEEE Std 802.1X-2004 (Revision of IEEE Std 802.1X-2001)},
+  title = {IEEE Standard for Local and Metropolitan Area Networks Port-Based Network Access Control},
+  year = {2004},
+  pages = {0\_1-169},
+  doi = {10.1109/IEEESTD.2004.96095},
+}
+
+@article{4100091,
+  journal = {ISO/IEC 8802-11, Second edition: 2005/Amendment 6 2006: IEEE STD 802.11i-2004 (Amendment to IEEE Std 802.11-1999)},
+  title = {ISO/IEC International Standard - Information Technology Telecommunications and Information Exchange Between Systems Local and Metropolitan Area Networks Specific Requirements Part 11: Wireless LAN Medium Access Control (MAC) and Physical Layer (PHY) Specifications Amendment 6: Medium Access Control (MAC) Security Enhancements},
+  year = {2004},
+  month = {July},
+  pages = {c1-178},
+  doi = {10.1109/IEEESTD.2004.311922},
+}
+
+@inproceedings{Fluhrer:2001:WKS:646557.694759,
+ author = {Fluhrer, Scott R. and Mantin, Itsik and Shamir, Adi},
+ title = {Weaknesses in the Key Scheduling Algorithm of RC4},
+ booktitle = {Revised Papers from the 8th Annual International Workshop on Selected Areas in Cryptography},
+ series = {SAC '01},
+ year = {2001},
+ isbn = {3-540-43066-0},
+ pages = {1--24},
+ numpages = {24},
+ url = {http://dl.acm.org/citation.cfm?id=646557.694759},
+ acmid = {694759},
+ publisher = {Springer-Verlag},
+ address = {London, UK, UK},
+}
+
+@inproceedings{Tews:2007:BBW:1784964.1784983,
+ author = {Tews, Erik and Weinmann, Ralf-Philipp and Pyshkin, Andrei},
+ title = {Breaking 104 Bit WEP in Less Than 60 Seconds},
+ booktitle = {Proceedings of the 8th International Conference on Information Security Applications},
+ series = {WISA'07},
+ year = {2007},
+ isbn = {3-540-77534-X, 978-3-540-77534-8},
+ location = {Jeju Island, Korea},
+ pages = {188--202},
+ numpages = {15},
+ url = {http://dl.acm.org/citation.cfm?id=1784964.1784983},
+ acmid = {1784983},
+ publisher = {Springer-Verlag},
+ address = {Berlin, Heidelberg},
+}
+
+@inproceedings{Wu:2006:STA:1124772.1124863,
+ author = {Wu, Min and Miller, Robert C. and Garfinkel, Simson L.},
+ title = {Do Security Toolbars Actually Prevent Phishing Attacks?},
+ booktitle = {Proceedings of the SIGCHI Conference on Human Factors in Computing Systems},
+ series = {CHI '06},
+ year = {2006},
+ isbn = {1-59593-372-7},
+ location = {Montr\&\#233;al, Qu\&\#233;bec, Canada},
+ pages = {601--610},
+ numpages = {10},
+ url = {http://doi.acm.org/10.1145/1124772.1124863},
+ doi = {10.1145/1124772.1124863},
+ acmid = {1124863},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {e-commerce, user interface design, user study, world wide web and hypermedia},
+}
+
+@incollection{Halvorsen:2009,
+  year = {2009},
+  isbn = {978-3-642-04765-7},
+  booktitle = {Identity and Privacy in the Internet Age},
+  volume = {5838},
+  series = {Lecture Notes in Computer Science},
+  editor = {Jøsang, Audun and Maseng, Torleiv and Knapskog, SveinJohan},
+  doi = {10.1007/978-3-642-04766-4_9},
+  title = {An Improved Attack on TKIP},
+  url = {http://dx.doi.org/10.1007/978-3-642-04766-4_9},
+  publisher = {Springer Berlin Heidelberg},
+  author = {Halvorsen, FinnM. and Haugen, Olav and Eian, Martin and Mjølsnes, StigF.},
+  pages = {120-132},
+  language = {English},
+}
+
+@article{viehbock2011brute,
+  title={Brute forcing wi-fi protected setup},
+  author={Viehb{\"o}ck, Stefan},
+  journal={Wi-Fi Protected Setup},
+  year={2011}
+}
+
+@techreport{aboba2004extensible,
+  title={Extensible authentication protocol (EAP)},
+  author={Aboba, Bernard and Blunk, Larry and Vollbrecht, John and Carlson, James and Levkowetz, Henrik and others},
+  year={2004},
+  institution={RFC 3748, June}
+}
+
+@techreport{harkins2010extensible,
+  title={Extensible Authentication Protocol (EAP) Authentication Using Only a Password},
+  author={Harkins, D and Zorn, G},
+  year={2010},
+  institution={RFC 5931, August}
+}
+
+@techreport{zorn1998microsoft,
+  title={Microsoft PPP CHAP Extensions},
+  author={Zorn, G and Cobb, S},
+  year={1998},
+  institution={RFC 2433, October}
+}
+
+@article{zorn2000microsoft,
+  title={Microsoft PPP CHAP extensions, version 2},
+  author={Zorn, Glen},
+  year={2000},
+  institution={RFC 2759, January}
+}
+
+@online{marlinspike2012divide,
+  title={Divide and Conquer: Cracking MS-CHAPv2 with a 100\% success rate},
+  author={Moxie Marlinspike},
+  date={2012-07-29},
+  url={https://www.cloudcracker.com/blog/2012/07/29/cracking-ms-chap-v2/},
+  urldate={2014-12-10},
+}
+
+@online{tpwr703n,
+  title={TP-Link TL-WR703N},
+  author={mandrawes},
+  organization={OpenWrt},
+  date={2014-11-29},
+  url={http://wiki.openwrt.org/toh/tp-link/tl-wr703n?rev=1417238011},
+  urldate={2014-12-10},
+}
+
+@online{keeble2014passive,
+  title={Passive WiFi Tracking},
+  author={Edward Keeble},
+  date={2014-02-26},
+  url={http://edwardkeeble.com/2014/02/passive-wifi-tracking/},
+  urldate={2014-12-10},
+}
+
+@online{hak5pineapple,
+  title={Wifi Pineapple / Jasager},
+  author={Robin Wood},
+  date={2014-12-10},
+  url={https://forums.hak5.org/index.php?/forum/64-wifi-pineapple-jasager/},
+  urldate={2014-12-10},
+}
+
+@online{dunstan2010attacking,
+  title={Attacking and Securing PEAP},
+  author={Patrick Dunstan},
+  date={2010-05-17},
+  url={http://www.defenceindepth.net/2010/05/attacking-and-securing-peap.html},
+  urldate={2014-12-10},
+}
+\end{filecontents}
+\fi\endgroup
+\addbibresource{references.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%               Header               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Multi-Surface Attack on Wi-Fi Security}
+
+\author{%
+  Brian~Ridings,
+  Tyler~Romeo,
+  and~Neal~Trischitta
+  \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem{} B. Ridings,
+    T. Romeo, and N. Trischitta are with the Stevens Institute of
+    Technology.}
+  \thanks{Copyright \texorpdfstring{\textcopyright}{(c)} 2014 Brian
+    Ridings, Tyler Romeo, and Neal Trischitta. Some rights
+    reserved. This work is licensed under the Creative Commons
+    Attribution-ShareAlike 4.0 International License. To view a copy
+    of this license, visit
+    \url{http://creativecommons.org/licenses/by-sa/4.0/}.}
+}
+\markboth{CS-577 Cybersecurity Lab, Fall 2014}{Ridings
+  \MakeLowercase{\textit{et al.}}: Multi-Surface Attack of Wi-Fi
+  Security}
+
+\begin{document}
+
+\IEEEtitleabstractindextext{%
+  \begin{abstract}
+    Wireless security is critical in both personal and corporate
+    environments. Almost all wireless security protocols have some
+    known exploit, and only select few configurations can provide real
+    security. A proof-of-concept of this fact was developed by making
+    a tiny form-factor, minimal-resource using router that can
+    automatically exploit multiple types of insecure wireless network
+    configurations. The deliverable was a success, and demonstrated
+    that using less than \$15 hardware, an attacker can exploit WEP-, WPA-TKIP-,
+    EAP-MD5-, and EAP-MSCHAPv2-protected networks. Additionally,
+    networks with unsigned or self-signed X.509 certificates could be
+    trivially spoofed, allowing replay of client credentials. Router
+    and operating system developers are deemed responsible for
+    improving their products by disabling insecure protocols and
+    encouraging user best practices.
+  \end{abstract}
+  \begin{IEEEkeywords}
+    Wireless systems, network-level security and protection, unauthorized access
+  \end{IEEEkeywords}
+}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%               Paper                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+\IEEEPARstart{W}{ireless} security is critical infrastructure in
+high-confidentiality or high-integrity networks. Eavesdropping and
+packet alteration attacks are significantly easier on a wireless
+medium, and thus traditional security mechanisms may not be enough due
+to the inherent insecurity of the channel. The motivation for our
+project was to demonstrate vulnerabilities in Wi-Fi security. For this
+project, researchers extended OpenWRT, an open Linux-based firmware
+that allows taking a high level perspective while not having to be
+concerned about the drivers and other inconsequential parts of the
+project. It also gave researchers the ability for full
+customization of the device and its components. The deployment of the
+Wi-Fi attack framework will attempt to intercept client credentials
+from the wireless interface by actively listening for probe requests
+from clients. In addition, our framework will be able to compute basic
+cracking of wireless protocols with known vulnerabilities.
+
+The purpose of the experiment is to demonstrate as a proof-of-concept
+exactly how many vulnerabilities exist in real-world wireless networks
+and how easy it is for an attacker to infiltrate an insecure network
+using minimal resources and opportunity. The first step to finding a
+solution is to clearly identify the problem, and it is important that
+users understand the liability they are incurring when using insecure
+wireless security protocols.
+
+Some related Work is the Hak5 Wifi Pineapple~\cite{hak5pineapple}. The
+Pineapple responds to client probe requests and lets it connect with
+that SSID on an open access point. The goal of this new device to not
+respond to probe request, but instead to create an access point and
+then wait for the client to initiate contact. Another goal is to allow for
+mutable and different encryption types, whereas the Pineapple only
+makes open access points. The Pineapple wants the user to connect so
+that a man-in-the-middle attack can be performed, but the new device
+wants to first capture credentials and other information that may be
+sensitive to the client, without the client initiating the connection.
+
+This paper is organized as follows: \autoref{sec:overview} gives an
+overview of various wireless security protocols in use in modern
+networks, and the vulnerabilities and exploits associated with those
+protocols; \autoref{sec:design} outlines the design and implementation
+of the proof-of-concept hardware deliverable demonstrating the
+aforementioned exploits; and finally \autoref{sec:results} explains
+the results of testing the final product and what was learned from
+those results.
+
+\section{Wireless Security Overview}
+\label{sec:overview}
+
+Securing wireless networks is a dubious task, to the point where some
+companies simply do not allow wireless access to corporate services at
+all. Wireless networks are generally secured using one of two security
+standards: either IEEE 802.11--1999 (WEP) or IEEE 801.11i-2004 (WPA and
+WPA2), the latter optionally combined with Wi-Fi Protected Security
+(WPS) or IEEE 802.1X-2004.
+
+\subsection{WEP}
+\label{sec:overview-wep}
+
+Wired Equivalent Privacy, often acronymed as WEP, was the first
+security algorithm developed for Wi-Fi, and was initially specified as
+part of the original IEEE 802.11 standard as released in 2003
+\cite{1438730}. As the name implies, the protocol was designed
+primarily to provide privacy and confidentiality for wireless
+communications, i.e., ensure that other clients could not listen in on
+traffic being sent to the access point. WEP even has an `Open' mode,
+where traffic is encrypted but clients do not have to authenticate to
+the access point. In fact, the only method of authentication or access
+control provided by WEP is pre-shared key authentication, which relies
+on using the key in an RC4 cipher when encrypting challenge text from
+the access point.
+
+WEP is thoroughly broken. As an emphasis of this fact, using `Open'
+mode, where no authentication is performed, is actually more secure
+than using a pre-shared key. (The reason behind this has to do with
+deriving the keystream by capturing the initial challenge.) Among the
+many issues with the protocol are use of RC4, a stream cipher, which
+requires using a new key every time, and a weak 23-bit initialization
+vectors that are open to repetition. These vulnerabilities resuled in
+the Fluher, Mantin, and Shamir attack
+\cite{Fluhrer:2001:WKS:646557.694759}, which, including improvements
+over the years, allows a 95\% chance recovery of a 104-bit WEP key
+using only 85,000 captured network packets
+\cite{Tews:2007:BBW:1784964.1784983}. This attack can be achieved on
+consumer hardware in just a few minutes.
+
+\subsection{WPA}
+\label{sec:overview-wpa}
+
+WEP has since been deprecated and superseded by Wi-Fi Protected
+Access. The first version of WPA was released by the Wi-Fi Alliance in
+the IEEE 802.11i draft standard as a stop-gap measure for replacing
+WEP, at least until the IEEE 802.11 working group could flesh out the
+more final version of the protocol. That final version was released as
+IEEE 802.11i-2004 and is commonly referred to was WPA2
+\cite{4100091}. The first version of WPA used the Temporal Key
+Integrity Protocol (TKIP). Although TKIP uses a 128-bit key and
+discourages attacks with a new key mixing function and message
+integrity checks, it uses some of the same techniques as WEP
+encryption, e.g., using CRC32 for checksums, and thus is vulnerable in
+many of the same ways. Halvorsen, et.~al~\cite{Halvorsen:2009}
+demonstrated being able to recover upto 596 bytes of the TKIP
+keystream in under twenty minutes. Eventually this was fixed in WPA2
+with the advent of the Counter Mode CBC-MAC Protocol (CCMP or
+AES-CCMP), which is considered secure as of the writing of this
+paper. CCMP works by using CBC-MAC to encrypt the data and compute the
+integrity tag, and then encrypting that tag in CTR mode, thus
+achieving authenticated encryption. Any attack on CCMP would imply an
+attack on AES itself.
+
+WPA also, unlike WEP, has more support dedicated to access control. In
+addition to using a pre-shared key, two other methods of client
+authentication may be used: Wi-Fi Protected Setup (WPS) and IEEE
+802.1X.
+
+\subsection{WPS}
+\label{sec:overview-wps}
+
+WPS was created by the Wi-Fi Alliance in 2006. It is not an IEEE
+standard, but nonetheless it is supported on many consumer routers. It
+was created to allow non-technology-savvy users to authenticate their
+wireless devices more easily. The protocol works over EAP, and
+involves having the user either push a button on the router or enter a
+preset PIN on the device. The enrollee (client) and the registrar
+(access point) negotiate configuration data and then reconnect using
+the new configuration. The WPS protocol has since been broken due to a
+timing attack on the PIN authentication, which allows a brute force
+attack to be completed in under four hours
+\cite{viehbock2011brute}. To make things worse, some routers are
+misleading, and even if a user disables WPS in the user interface, it
+remains enabled and the router will still negotiate with
+clients. Fortunately, some router manufacturers have released firmware
+updates that fix this issue, while others have implemented
+rate-limiting on the WPS mechanism to stop brute-force attacks.
+
+\subsection{802.1X}
+\label{sec:overview-8021x}
+
+Contrary to WPS, 802.1X is not an authentication protocol, but an
+wrapping of an existing authentication framework. IEEE~802.1X-2007 is
+a method of encapsulating the Extensible Authentication Protocol (or
+EAP, as defined in RFC~3748~\cite{aboba2004extensible}) in IEEE~802
+packets~\cite{1438730}. The protocol is sometimes referred to as
+EAPOL, or EAP over LAN, and was originally designed for IEEE~802.3
+Ethernet, but was extended to wireless in 2004. The 802.1X protocol
+itself is not of much interest for security research, but the
+underlying EAP is. As aforementioned, EAP is an authentication
+framework that can be used with many different authentication methods,
+some more secure than others.
+
+Common authentication methods available on EAP are: EAP-MD5, EAP-PWD,
+EAP-MSCHAP, EAP-TLS, EAP-TTLS, and PEAP\@. There are many others, but
+only these are both widely supported natively by clients and are
+commonly used by network administrators.
+
+Starting at the bottom, EAP-MD5 involves a pre-shared key that, as the
+name implies, is combined in MD5 to authenticate the
+client~\cite{aboba2004extensible}. Other than the various
+vulnerabilities inherited from using MD5, this protocol does not have
+any server authentication, and thus is blatantly vulnerable to
+man-in-the-middle attacks using a fake access point. EAP-MD5 was
+officially deprecated in Windows Vista. EAP-PWD improves upon EAP-MD5
+by using a secure hash function, specifically HMAC-SHA-256, and
+authenticating both the server and the
+client~\cite{harkins2010extensible}. While the key exchange protocol
+is resistant to attack, this protocol may still suffer from users
+setting low-entropy passwords or passwords that can be guessed using a
+dictionary attack.
+
+A more commonly used protocol is EAP-MSCHAP (either version 1 as
+defined in RFC 2433~\cite{zorn1998microsoft} or version 2 as defined
+in RFC 2759~\cite{zorn2000microsoft}). It involves using Microsoft's
+customized version of the Challenge-Handshake Authentication Protocol,
+and uses a three-way handshake using SHA1, MD4, and DES (together) to
+authenticate both the client and the server. As the reader may be able
+to infer, the protocol is needlessly complicated and, as demonstrated
+by Marlinspike in 2012~\cite{marlinspike2012divide}, can be broken by
+cracking a single DES key and then cracking the resulting MD4
+hash. Since both tasks are trivial on modern hardware, MS-CHAP is
+considered broken.
+
+Finally, there are EAP-TLS, EAP-TTLS, and PEAP, which, with respect to
+the protocol, are considered secure. The first uses TLS to
+authenticate both the server and client. X.509 certificates are issued
+to clients and servers, all signed by a common certificate authority
+(CA). The latter two are very similar, and do not require the client
+to have its own X.509 certificate. Instead, they establish the TLS
+connection as a tunnel, and then lets the client authenticate using
+further protocols that are tunneled inside the TLS stream.
+
+PEAP specifically, as developed my Microsoft, uses EAP once again
+inside the encrypted TLS tunnel. In other words, it is a second
+iteration of EAP inside a tunnel established via the first iteration
+of EAP.\@ The catch is that each version of PEAP (there are two) only
+supports a single authentication mechanism for the inner iteration of
+EAP.\@ PEAPv0 uses EAP-MSCHAPv2, and PEAPv1 uses EAP-GTC, an alternative
+to MSCHAPv2 developed by Cisco. With PEAP, since the inner
+authentication protocol is run inside a TLS tunnel, it remains secure
+even despite the vulnerabilities of
+MS-CHAP~\cite{dunstan2010attacking}.\footnote{If the attacker can
+  perform a man-in-the-middle attack between the access point and the
+  RADIUS server used to authenticate, then a new attack on PEAP
+  becomes possible, but this paper does not consider that attack since
+  the primary threat model involves an outside attacker attempting to
+  gain access to the network.}
+
+However, while all of these protocols are indeed the most secure out
+of all the EAP options, they still inherit vulnerabilities from the
+X.509 trust model. The server's certificate must be signed by a
+trusted CA, and users must be instructed not to trust unsafe
+certificates.  Unfortunately, this can be near impossible since:
+certificates for use network-wide in 802.1X systems are
+extraordinarily expensive and are not affordable to smaller entities;
+and even modern operating systems, like Windows 8 and OS X, provide
+trivial and almost entirely ignorable warnings when a network provides
+an untrusted server certificate.  The only method of protection is to
+go multiple user interface levels deep into advanced network settings
+and toggle a flag disallowing unsafe certificates.  As of the writing
+of this paper, the wireless network at the Stevens Institute of
+Technology does not use a trusted certificate, and the Information
+Technology department explicitly instructs users to ignore warnings
+and connect anyway.
+
+\section{Design and Execution}
+\label{sec:design}
+
+\subsection{Threat Model}
+\label{sec:design-model}
+
+Overall, there are numerous vulernabilities in all of the available
+security protocols for Wi-Fi. The ones more readily exploitable, as
+listed above, are:
+
+\begin{itemize}
+\item Sniff traffic for WEP-secured network and brute-force the
+  keystream.
+\item Perform a man-in-the-middle attack on a WPA-TKIP-secured
+  network.
+\item Brute-force the PIN for a WPS-secured network.
+\item Use dictionaries or brute-force to guess a weak WPA-PSK or
+  EAP-PWD password.
+\item Impersonate an Access Point of an EAP-MD5-secured network and
+  crack the client credentials.
+\item Crack the DES key and the resulting MD4 hash of a key exchange
+  on an EAP-MSCHAP-secured network.
+\item Provide a fake server TLS certificate on an EAP-TLS- or
+  EAP-TTLS-secured network and social engineer the user into accepting
+  it.
+\item Provide a fake server TLS certificate on a PEAP-secured network
+  and then crack the inner MS-CHAPv2 exchange as described before.
+\end{itemize}
+
+Many of these attacks allow complete breaks of security in the entire
+wireless network. Looking at the system from the perspective of the
+attacker, there are a number of assets that might be of
+interest. Specifically they are:
+
+\begin{description}
+\item[Network access] \hfill \\
+  The network may contain resources that only authenticated clients
+  can be allowed to access. If the wireless network provides access to
+  the entire LAN, including business-critical resources, this can pose
+  a high-level risk to the confidentiality and integrity of those
+  resources, and a medium-level risk to availability depending on the
+  services running. On the other end of the spectrum, even if the
+  wireless network is only provided for personal use, it could still
+  pose a low-level risk for integrity, specifically impersonation.
+
+\item[Client credentials] \hfill \\
+  Some wireless attacks allow cracking of the client's original
+  credentials. This gives the attacker persistent access to the
+  network under the client's identity, thus excaberating any risks
+  aforementioned concerning network access.
+
+\item[Network traffic] \hfill \\
+  In limited cases where the attacker gains the client credentials,
+  and in cases where the attacker performs a man-in-the-middle attack
+  on the client, the attacker can sniff and later data sent to and
+  from the actual network. This poses a high-level risk to
+  confidentiality and integrity if any mission-critical information is
+  communicated over that network.
+\end{description}
+
+As a further note, some assumptions are made about the system when
+making these attacks. Specifically, the attacker must be in an
+opportune location to launch these attacks. A WEP key cannot be
+cracked if you are not in range of the network in order to capture
+traffic. As a result, it is a requirement that this device be portable
+and unnoticeable, thus facilitating easy, persistent planting of the
+device in a suitable ground zero. In addition, if the network is
+protected by EAP-TLS, EAP-TTLS, or PEAP, the assumption needs to be
+made that either the server certificate is not signed by a trusted
+authority or that users are either not knowledgeable enough or not
+caring enough to properly validate the certificate every time they
+connect to the network. In most situations, these two assumptions can
+be made trivially.
+
+\subsection{Hardware Design}
+\label{sec:design-hardware}
+
+In order to facilitate easy placement, a tiny form factor router was
+chosen for this experiment: the TP-Link TL-WR703N~\cite{tpwr703n}. The
+device measures \SI{5.7}{\cm} by \SI{5.7}{\cm} by \SI{1.8}{\cm}
+(slighty larger with a low-profile USB storage device plugged in), and
+has an Atheros AR7240 CPU at \SI{400}{\MHz} and an Atheros AR9331
+chipset, with integrated 802.11b/g/n wireless.
+
+One of the issues with the device was power. Power is supplied via
+MicroUSB, but a power source is needed for the router to remain
+operational. For an attacker, plugging into an outlet may not be an
+option if the router is to be hidden, and thus a portable batter must
+be connected to the router when it is planted. With Wi-Fi at
+\SI{18}{dB.mW}, average current is \SI{100}{\mA} at approximately
+\SI{5}{\volt}, giving a power consumption of \SI{0.5}{\W}. Under
+normal conditions, a small \SI{3200}{\mA.\hour} phone battery could
+power the router for \SI{32}{\hour}, which is more than enough to
+exploit most network vulnerabilities or capture at least one set of
+client credentials. With an even more powerful battery (on the current
+market going as high as \SI{25,000}{\A.\hour}), the device becomes
+larger but can last more than ten days.
+
+OpenWrt 12 `Attitude Adjustment' was used as the base system, with
+various additional packages installed, such as hostapd for launching
+multiple wireless interfaces simultaneously, scapy for scanning
+wireless networks~\cite{keeble2014passive}, and freeradius2 for
+simulating access to a RADIUS server in 802.1X-secured networks.
+
+\subsection{Wireless Exploits}
+\label{sec:design-exploits}
+
+Some of the main purposes of the framework are to provide wireless
+reconnaissance, to locate a wireless network, and to collect
+information about its configuration and associated clients. The `scapy'
+python library, an interactive packet manipulation program was used
+for the reconnaissance framework, since it provides the ability to
+forge or decode packets of a wide number of protocols. In order to use
+scapy, the wireless network interface was set to monitor mode to
+capture and listen to all traffic transmission from the wireless
+access point. Unlike promiscuous mode, which is also used for packet
+sniffing, monitor mode allows packets to be captured without having to
+associate with an access point or ad hoc network first. Using `scapy',
+probe requests and responses frames were captured to determine clients
+attempting to actively seek any, or a particular, access point.
+
+For discovered 802.11 PEAP/WPA networks, the device then employs a
+RADIUS impersonation attack. The attack, as described earlier,
+exploits the lack of certificate validation by setting up a fake
+access point with a forged certificate. In addition, the device runs a
+patched RADIUS server that allows all username and password
+combinations to be authenticated, while simultaneously logging the
+credential exchange. Combined, the client will attempt to connect and
+subsequently expose the client's credentials in the resulting MS-CHAP
+exchange.
+
+\section{Results and Testing}
+\label{sec:results}
+
+The device was programmed to receive client probe requests and set up
+up to six access points on demand. Access points are configured to
+match the expected encryption settings of the actual access
+point. Afterward the device pools for clients attaching to the access
+point and removes duplicate access points that have the same SSID, but
+are operating on that interface. Furthermore, old interfaces are
+pruned based on the time they were created due to the upper limit of
+the number of interfaces supported by the wireless driver.
+
+There are some limitations of this setup. One is that it is hard to
+delete interfaces, add interfaces, and modify them without restarting
+all of the interfaces. This causes issues because any existing client
+traffic is interrupted upon adding, modifying, or deleting an
+interface. Currently the research team is not aware of any method of
+hot-swapping wireless interfaces with the currently available drivers.
+
+The research team also took some of the results from Spoofing
+Enterprise Routers, specifically FreeRadius-wpe patch files that allow
+for logging RADIUS requests and responses in order to decrypt
+passwords and log them is passed in plaintext. The patches were not
+made for OpenWRT, thus patches had to be applied to the version of
+FreeRadius that works with OpenWRT.\@ To my knowledge this is the first
+instance of a self-contained FreeRadius-wpe router in OpenWRT.\@
+
+Otherwise, the device was able to successfully capture 802.1X client
+credentials sent over PEAP-MSCHAPv2, which is the most popular
+enterprise authentication protocol.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+As demonstrated by the device, wireless security is in a broken
+state. Most networks, both personal and enterprise, are open to
+exploitation using various methods depending on the authentication
+protocol in use.
+
+The moral of the story is that there are only two security protocols
+for Wi-Fi that are effective at mitigating threats: using WPA-CCMP-PSK
+with a strong, non-guessable key; and using EAP-TLS, EAP-TTLS, or PEAP
+(over 802.1X) with a trusted certificate authority and clients that
+are configured to always reject untrusted certificates. Literally any
+other wireless environment can be broken by consumer-grade hardware
+and is entirely insecure.
+
+The only solution to this problem is for router manufacturers to find
+new ways to encourage users to utilize secure wireless technology. For
+example, completely removing WEP, WPA-TKIP, and WPS from routers. By
+only allowing WPA2-CCMP, using either a PSK or the secure 802.1X, the
+protocol is secure and any vulnerabilities could only be introduced by
+user bad practices. For WPA2 with a PSK or with PEAPv0-MSCHAPv2, this paper
+does not address methods of encouraging users to create secure
+passwords and follow proper password management policies, as that is a
+much larger scope problem that needs to be addressed by dedicated
+research. For EAP-TLS, however, operating systems developers should
+make rejection of unsafe certificates the default settings and create
+more prominent warnings when a user is prompted to inspect and accept
+an unsafe certificate. A similar example of this problem and solution
+is phishing warning toolbars in browsers, which were proven largely
+ineffective and replaced with more serious and prominent, full-page
+warnings~\cite{Wu:2006:STA:1124772.1124863}.
+
+The onus is now on router and operating systems developers to disable
+insecure protocols in their firmware and software, thus enforcing user
+best practices and improving the general state of wireless security.
+
+\printbibliography{}
+\end{document}
