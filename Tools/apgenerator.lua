@@ -1,5 +1,5 @@
 require("uci")
-require("os")
+
 
 c = uci.cursor()
 name = c:add("wireless", "wifi-iface")
@@ -33,4 +33,4 @@ end
 
 c:save("wireless")
 c:commit("wireless")
-os.execute("wifi")
+

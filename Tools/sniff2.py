@@ -117,6 +117,7 @@ def getAPclients():
 
                 if len(maclist) > 0:
                     #remove Other ssid than this one.
+                    removeOthers(dev)
 
                     #add to list of completed aps
                     if currentSpoofedNetworks[dev]["ssid"] not in previouslySpoofed:
@@ -130,7 +131,7 @@ def removeAP(interface):
     if interface != monitor_interface:
         subprocess.call(["lua", "removeap.lua", interface])
 
-def removeOldAP():
+def removeOldAP(count):
     time = datetime.max
     oldinf = ""
 
@@ -140,10 +141,12 @@ def removeOldAP():
             oldinf = inf
     removeAP(oldinf)
 
-def removeOthers(ssid, interface):
+def removeOthers(interface):
+    ssid = currentSpoofedNetworks[interface]["ssid"]
     for int in currentSpoofedNetworks:
         if int != interface and currentSpoofedNetworks[inf]["ssid"] == ssid:
             removeAP(inf)
+    subprocess.call(["lua", "saveAP.lua",])
 
 def createAP(ssid, crypto):
     getAPinfo()
@@ -153,20 +156,24 @@ def createAP(ssid, crypto):
         if ssid in previouslySpoofed:
             return createAP(ssid, previouslySpoofed[ssid]["crypto"])
         if len(currentSpoofedNetworks) + 6 > maxAPs:
-           for x in range(len(currentSpoofedNetworks) + 6 - maxAPs):
+            for x in range(len(currentSpoofedNetworks) + 6 - maxAPs):
                 removeOldAP()
+                
         subprocess.call(["lua", "apgenerator.lua", ssid, crypto])
         subprocess.call(["lua", "apgenerator.lua", ssid, "wep", "ABCDEF1234567890"])
         subprocess.call(["lua", "apgenerator.lua", ssid, "wpa", "ABCDEF1234567890"])
         subprocess.call(["lua", "apgenerator.lua", ssid, "wpa"])
         subprocess.call(["lua", "apgenerator.lua", ssid, "wpa2", "ABCDEF1234567890"])
         subprocess.call(["lua", "apgenerator.lua", ssid, "wpa2"])
+        subprocess.call(["lua", "saveAP.lua"])
+
 
     #Create profile for WEP-open WEP-PSK
     elif crypto == "wep+mixed":
         if len(currentSpoofedNetworks) + 1 > maxAPs:
             removeOldAP()
         subprocess.call(["lua", "apgenerator.lua", ssid, crypto, "ABCDEF1234567890"])
+        subprocess.call(["lua", "saveAP.lua"])
 
     #Create profile for WPA2-EAP and WPA2-PSK
     elif crypto == "wpa":
@@ -175,6 +182,7 @@ def createAP(ssid, crypto):
                 removeOldAP()
         subprocess.call(["lua", "apgenerator.lua", ssid, crypto, "ABCDEF1234567890"])
         subprocess.call(["lua", "apgenerator.lua", ssid, crypto])
+        subprocess.call(["lua", "saveAP.lua"])
 
     #Create profile for WPA2-EAP and WPA2-PSK
     elif crypto == "wpa2":
@@ -183,6 +191,7 @@ def createAP(ssid, crypto):
                 removeOldAP()
         subprocess.call(["lua", "apgenerator.lua", ssid, crypto, "ABCDEF1234567890"])
         subprocess.call(["lua", "apgenerator.lua", ssid, info["crypto"]])
+        subprocess.call(["lua", "saveAP.lua"])
 
 
 def loadAPinfo():
