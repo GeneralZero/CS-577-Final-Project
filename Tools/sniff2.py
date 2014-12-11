@@ -86,7 +86,6 @@ def getAPinfo():
                 info = [y if y!= "" else z for y,z in info ]
                 if dev not in currentSpoofedNetworks:
                     currentSpoofedNetworks[dev] = {}
-                print info
                 currentSpoofedNetworks[dev]["ssid"] = info[0]
                 currentSpoofedNetworks[dev]["crypto"] = info[1]
             else:
@@ -107,11 +106,11 @@ def getAPclients():
                 dev = "wlan0-" + str(x)
             output = subprocess.check_output(["iwinfo", dev, "assoclist"])
             #Parse output
-            if output.find("No station connected") == -1:
+            if output.find("No station connected") == -1 and dev != monitor_interface:
                 #find all MAC addresses
                 maclist = re.findall("(([0-9A-F]{2}[:]){5}[0-9A-F]{2})", output)
                 maclist = [y for y,_ in maclist ]
-                if dev not in currentSpoofedNetworks and dev != monitor_interface:
+                if dev not in currentSpoofedNetworks:
                     currentSpoofedNetworks[dev] = {}
                     currentSpoofedNetworks[dev]["start"] = datetime.datetime.now()
                 currentSpoofedNetworks[dev]["clients"] = maclist
@@ -120,7 +119,8 @@ def getAPclients():
                     #remove Other ssid than this one.
 
                     #add to list of completed aps
-                    previouslySpoofed.append(currentSpoofedNetworks[dev])
+                    if currentSpoofedNetworks[dev]["ssid"] not in previouslySpoofed:
+                        previouslySpoofed[currentSpoofedNetworks[dev]["ssid"]] = currentSpoofedNetworks[dev]
             else:
                 return
         except subprocess.CalledProcessError, e:
@@ -145,6 +145,8 @@ def createAP(ssid, crypto):
 
     #Create profile for all
     if crypto == "none":
+        if ssid in previouslySpoofed:
+            return createAP(ssid, previouslySpoofed[ssid]["crypto"])
         if len(currentSpoofedNetworks) + 6 > maxAPs:
            for x in range(len(currentSpoofedNetworks) + 6 - maxAPs):
                 removeOldAP()
